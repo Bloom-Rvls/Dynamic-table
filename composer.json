@@ -2,7 +2,8 @@
     "name": "bloom/table",
     "autoload": {
         "psr-4": {
-            "Bloom\\Table\\": "src/"
+            "Bloom\\Table\\": "src/",
+            "App\\":"src"
         }
     },
     "authors": [

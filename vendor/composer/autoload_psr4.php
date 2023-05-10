@@ -9,4 +9,5 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Bloom\\Table\\' => array($baseDir . '/src'),
+    'App\\' => array($baseDir . '/src'),
 );

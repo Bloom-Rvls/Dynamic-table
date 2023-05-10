@@ -21,6 +21,10 @@ class ComposerStaticInit5985ba39c7118c10c9b984064a65c593
         array (
             'Bloom\\Table\\' => 12,
         ),
+        'A' => 
+        array (
+            'App\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -33,6 +37,10 @@ class ComposerStaticInit5985ba39c7118c10c9b984064a65c593
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
         'Bloom\\Table\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+        'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
