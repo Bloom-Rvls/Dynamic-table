@@ -1,0 +1,17 @@
+{
+    "name": "bloom/table",
+    "autoload": {
+        "psr-4": {
+            "Bloom\\Table\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bloom rvls",
+            "email": "angelicaravelonjohanison@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/var-dumper": "^6.2"
+    }
+}

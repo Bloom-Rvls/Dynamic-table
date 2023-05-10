@@ -1,3 +1,14 @@
+<?php
+require 'vendor/autoload.php';
+$pdo = new PDO('mysql:host=localhost:3306;dbname=biens_db;charset=utf8','root','',[
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+]);
+$query = $pdo->query('SELECT * FROM liste LIMIT 20');
+$products = $query->fetchAll();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +19,28 @@
     <title>Biens immobibliers</title>
 </head>
 <body>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($products as $product): ?>
+                <tr>
+                    <td>#<?= $product["id"]?></td>
+                    <td><?= $product["name"]?></td>
+                    <td><?= $product["price"]?> £</td>
+                    <td><?= $product["city"]?></td>
+                    <td><?= $product["address"]?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
     
 </body>
 </html>
