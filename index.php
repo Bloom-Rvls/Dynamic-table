@@ -2,6 +2,8 @@
 
 use App\NumberHelper;
 
+define('PER_PAGE', 20);
+
 require 'vendor/autoload.php';
 $pdo = new PDO('mysql:host=localhost:3306;dbname=biens_db;charset=utf8','root','',[
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -9,6 +11,7 @@ $pdo = new PDO('mysql:host=localhost:3306;dbname=biens_db;charset=utf8','root','
 ]);
 
 $query = "SELECT * FROM liste";
+$queryCount = "SELECT COUNT(id) as count FROM liste";
 $params = [];
 
 //searching by city name
@@ -16,12 +19,21 @@ if(!empty($_GET['q'])) {
     $query .= " WHERE city LIKE :city";
     $params['city'] = '%' . $_GET['q'] . '%';
 }
-$query .= " LIMIT 20";
+
+//Pagination
+$page = (int)($_GET['p'] ?? 1);
+$offset = ($page-1) * PER_PAGE;
+
+$query .= " LIMIT " . PER_PAGE . " OFFSET $offset";
 
 $statement = $pdo->prepare($query);
 $statement->execute($params);
 $products = $statement->fetchAll();
 
+$statement = $pdo->prepare($queryCount);
+$statement->execute();
+$count = (int)$statement->fetch()['count'];
+$pages = ceil($count / PER_PAGE);
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +49,7 @@ $products = $statement->fetchAll();
     <h2>Les biens immobliers</h2>
     <form action="" class="mb-4">
         <div class="form-group mb-4">
-            <input type="text" class="form-control" name="q" placeholder="Rechercher par ville">
+            <input type="text" class="form-control" name="q" placeholder="Rechercher par ville" value="<?= htmlentities($_GET['q'] ?? null)?>">
         </div>
         <button class="btn btn-primary">Rechercher</button>
 
@@ -65,6 +77,10 @@ $products = $statement->fetchAll();
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <?php if($pages > 1 && $page < $pages): ?>
+        <a href="?p=<?= $page + 1?>" class="btn btn-primary">Page suivante</a>
+    <?php endif; ?>
     
 </body>
 </html>
