@@ -1,6 +1,7 @@
 <?php
 
 use App\NumberHelper;
+use App\URLHelper;
 
 define('PER_PAGE', 20);
 
@@ -17,6 +18,7 @@ $params = [];
 //searching by city name
 if(!empty($_GET['q'])) {
     $query .= " WHERE city LIKE :city";
+    $queryCount .= " WHERE city LIKE :city";
     $params['city'] = '%' . $_GET['q'] . '%';
 }
 
@@ -31,9 +33,10 @@ $statement->execute($params);
 $products = $statement->fetchAll();
 
 $statement = $pdo->prepare($queryCount);
-$statement->execute();
+$statement->execute($params);
 $count = (int)$statement->fetch()['count'];
 $pages = ceil($count / PER_PAGE);
+
 ?>
 
 <!DOCTYPE html>
@@ -79,10 +82,10 @@ $pages = ceil($count / PER_PAGE);
     </table>
 
     <?php if($pages > 1 && $page >1): ?>
-        <a href="?p=<?= $page - 1?>" class="btn btn-primary">Page precedente</a>
+        <a href="?<?= URLHelper::withParam("p", $page - 1)?>" class="btn btn-primary">Page precedente</a>
     <?php endif; ?>
     <?php if($pages > 1 && $page < $pages): ?>
-        <a href="?p=<?= $page + 1?>" class="btn btn-primary">Page suivante</a>
+        <a href="?<?= URLHelper::withParam("p", $page + 1)?>" class="btn btn-primary">Page suivante</a>
     <?php endif; ?>
     
 </body>
